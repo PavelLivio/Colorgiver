@@ -10,6 +10,8 @@ public class EnemyScript : MonoBehaviour {
 	public TextMesh textM;
 	public TextMesh textGoalM;
 
+	float livios2BranchVar;
+
 	public Color myColor;
 	public Color goalColor;
 
