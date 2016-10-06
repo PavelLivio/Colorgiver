@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyScript : MonoBehaviour {
 
 	float testVarBranchLivio;
+	float testVarBranchLivioChangeB;
 
 	public GameObject enemyDestroyParticlePrefab;
 
