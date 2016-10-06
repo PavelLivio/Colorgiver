@@ -13,6 +13,8 @@ public class EnemyScript : MonoBehaviour {
 	public Color myColor;
 	public Color goalColor;
 
+	float masterVar;
+
 	// Use this for initialization
 	void Start () {
 		headRenderer.material.color = goalColor;
