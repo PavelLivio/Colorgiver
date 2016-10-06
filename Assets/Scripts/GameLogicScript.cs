@@ -9,6 +9,7 @@ public class GameLogicScript : MonoBehaviour {
 	public LayerMask playerLayer;
 	public LayerMask notPlayerLayer;
 	public GameObject ghostPrefab;
+	public LineRenderer lR;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +32,7 @@ public class GameLogicScript : MonoBehaviour {
 					currentPlayerColor = new Color(currentPlayerColor.r, currentPlayerColor.g, currentPlayerColor.b, currentDragedGhostGO.GetComponent<Renderer>().material.color.a);
 					currentDragedGhostGO.GetComponent<Renderer>().material.color = currentPlayerColor;
 					//currentDragedGO.GetComponent<Renderer>().material.color = Color.red;
+					lR.SetColors(currentPlayerColor, currentPlayerColor);
 				}
 			}
 		}
@@ -40,7 +42,10 @@ public class GameLogicScript : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
-				currentDragedGhostGO.transform.position = hit.point;
+				if(currentDragedGhostGO)
+					currentDragedGhostGO.transform.position = hit.point;
+				lR.SetPosition(0,currentDragedGO.transform.position);
+				lR.SetPosition(1,currentDragedGhostGO.transform.position);
 			}
 		}
 
@@ -57,6 +62,9 @@ public class GameLogicScript : MonoBehaviour {
 				}
 				//currentDragedGO.GetComponent<Renderer>().material.color = Color.white;
 				Destroy(currentDragedGhostGO);
+
+				lR.SetPosition(0,Vector3.zero);
+				lR.SetPosition(1,Vector3.zero);
 			}
 		}
 	

@@ -6,22 +6,31 @@ public class EnemyScript : MonoBehaviour {
 	public Renderer bodyRenderer;
 	public Renderer headRenderer;
 	public TextMesh textM;
+	public TextMesh textGoalM;
 
-	public float colorR;
-	public float colorG;
-	public float colorB;
-
-	public float colorTargetR;
-	public float colorTargetG;
-	public float colorTargetB;
+	public Color myColor;
+	public Color goalColor;
 
 	// Use this for initialization
 	void Start () {
-		headRenderer.material.color = new Color(colorTargetR, colorTargetG, colorTargetB);
+		headRenderer.material.color = goalColor;
+		bodyRenderer.material.color = myColor;
+		textGoalM.text = "R"+goalColor.r+" G"+goalColor.g+" B"+goalColor.b;
 	}
-	
+
 	public void GetsHittedByPlayer (Color inColor ) {
-		bodyRenderer.material.color = inColor;
-		textM.text = "R"+inColor.r+" G"+inColor.g+" B"+inColor.b;
+		if(compareColors(goalColor, inColor)){
+			Destroy(gameObject);
+		}else{
+			bodyRenderer.material.color = inColor;
+			textM.text = "R"+inColor.r+" G"+inColor.g+" B"+inColor.b;
+		}
+	}
+
+	bool compareColors(Color inCol1, Color inCol2){
+		if(inCol1.r == inCol2.r && inCol1.g == inCol2.g && inCol1.b==inCol2.b)
+			return true;
+		else
+			return false;
 	}
 }
