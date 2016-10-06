@@ -3,10 +3,6 @@ using System.Collections;
 
 public class EnemyScript : MonoBehaviour {
 
-	float testVarBranchLivio;
-	float testVarBranchLivioChangeB;
-
-	float detachedHeadBranchLivio;
 	public GameObject enemyDestroyParticlePrefab;
 
 	public Renderer bodyRenderer;
@@ -14,13 +10,8 @@ public class EnemyScript : MonoBehaviour {
 	public TextMesh textM;
 	public TextMesh textGoalM;
 
-	float livios2BranchVar;
-	float livios2BranchVarB;
-
 	public Color myColor;
 	public Color goalColor;
-
-	float masterVar;
 
 	// Use this for initialization
 	void Start () {
