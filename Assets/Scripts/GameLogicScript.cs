@@ -42,10 +42,11 @@ public class GameLogicScript : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
-				if(currentDragedGhostGO)
+				if(currentDragedGhostGO){
 					currentDragedGhostGO.transform.position = hit.point;
-				lR.SetPosition(0,currentDragedGO.transform.position);
-				lR.SetPosition(1,currentDragedGhostGO.transform.position);
+					lR.SetPosition(0,currentDragedGO.transform.position);
+					lR.SetPosition(1,currentDragedGhostGO.transform.position);
+				}
 			}
 		}
 
