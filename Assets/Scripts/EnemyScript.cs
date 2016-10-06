@@ -6,6 +6,7 @@ public class EnemyScript : MonoBehaviour {
 	float testVarBranchLivio;
 	float testVarBranchLivioChangeB;
 
+	float detachedHeadBranchLivio;
 	public GameObject enemyDestroyParticlePrefab;
 
 	public Renderer bodyRenderer;
