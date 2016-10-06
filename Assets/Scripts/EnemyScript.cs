@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EnemyScript : MonoBehaviour {
 
+	float testVarBranchLivio;
+
 	public GameObject enemyDestroyParticlePrefab;
 
 	public Renderer bodyRenderer;
