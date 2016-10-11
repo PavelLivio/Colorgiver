@@ -13,13 +13,21 @@ public class EnemyScript : MonoBehaviour {
 	public Color myColor;
 	public Color goalColor;
 
-	// Use this for initialization
-	void Start () {
+    NavMeshAgent nav;
+    Transform wagon;
+
+    // Use this for initialization
+    void Start () {
 		headRenderer.material.color = goalColor;
 		bodyRenderer.material.color = myColor;
 		textGoalM.text = "R"+goalColor.r+" G"+goalColor.g+" B"+goalColor.b;
 	}
+    void Awake ()
+    {
+        wagon = GameObject.FindGameObjectWithTag("Wagon").transform;
 
+        nav = GetComponent<NavMeshAgent>();
+    }
 	public void GetsHittedByPlayer (Color inColor ) {
 		if(compareColors(goalColor, inColor)){
 			Destroy(gameObject);
@@ -37,4 +45,11 @@ public class EnemyScript : MonoBehaviour {
 		else
 			return false;
 	}
+    void Update()
+    {
+        nav.SetDestination(wagon.position);
+    }
 }
+
+    
+

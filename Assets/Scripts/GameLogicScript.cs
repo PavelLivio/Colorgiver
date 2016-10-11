@@ -11,8 +11,12 @@ public class GameLogicScript : MonoBehaviour {
 	public GameObject ghostPrefab;
 	public LineRenderer lR;
 
-	// Use this for initialization
-	void Start () {
+    
+
+
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -26,7 +30,7 @@ public class GameLogicScript : MonoBehaviour {
 			if (Physics.Raycast(ray, out hit, 100, playerLayer)){
 				Debug.DrawLine(ray.origin, hit.point);
 				if(hit.collider.CompareTag("Player")){
-					currentDragedGhostGO = Instantiate(ghostPrefab, hit.point, Quaternion.identity) as GameObject;
+                    currentDragedGhostGO = Instantiate(ghostPrefab, hit.point+ new Vector3(0, 0.5f, 0), Quaternion.identity) as GameObject;
 					currentDragedGO = hit.collider.gameObject;
 					currentPlayerColor = currentDragedGO.GetComponent<Renderer>().material.color;
 					currentPlayerColor = new Color(currentPlayerColor.r, currentPlayerColor.g, currentPlayerColor.b, currentDragedGhostGO.GetComponent<Renderer>().material.color.a);
@@ -59,8 +63,8 @@ public class GameLogicScript : MonoBehaviour {
 					EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
 					tEnemyScript.GetsHittedByPlayer(currentPlayerColor);
 				}else{
-					currentDragedGO.transform.position = hit.point;
-				}
+                    currentDragedGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
+                }
 				//currentDragedGO.GetComponent<Renderer>().material.color = Color.white;
 				Destroy(currentDragedGhostGO);
 
