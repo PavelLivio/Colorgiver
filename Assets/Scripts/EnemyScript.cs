@@ -9,6 +9,13 @@ public class EnemyScript : MonoBehaviour {
 	public Renderer headRenderer;
 	public TextMesh textM;
 	public TextMesh textGoalM;
+    public Transform statsholder;
+
+
+
+    public Rigidbody enemyrb;
+    public float upSpeed= 4f;
+    bool isGoingHeaven;
 
 	public Color myColor;
 	public Color goalColor;
@@ -21,6 +28,7 @@ public class EnemyScript : MonoBehaviour {
 		headRenderer.material.color = goalColor;
 		bodyRenderer.material.color = myColor;
 		textGoalM.text = "R"+goalColor.r+" G"+goalColor.g+" B"+goalColor.b;
+        enemyrb = GetComponent<Rigidbody>();
 	}
     void Awake ()
     {
@@ -47,7 +55,30 @@ public class EnemyScript : MonoBehaviour {
 	}
     void Update()
     {
-        nav.SetDestination(wagon.position);
+        transform.LookAt(wagon);
+        statsholder.LookAt(Camera.main.transform);
+        if (isGoingHeaven)
+        {
+            enemyrb.MovePosition(transform.position + new Vector3(0, upSpeed*Time.deltaTime , 0));
+            if (transform.position.y > 20)
+                isGoingHeaven = false;
+
+        }
+        else
+        {
+            enemyrb.MovePosition(transform.position +transform.forward * upSpeed * Time.deltaTime);
+
+            //nav.SetDestination(wagon.position);
+        }
+    }
+    public void GoToHeaven()
+
+    {
+        isGoingHeaven = true;
+        GetComponent<Renderer>().material.color = goalColor;
+        
+        
+
     }
 }
 
