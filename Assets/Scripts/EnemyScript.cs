@@ -9,7 +9,6 @@ public class EnemyScript : MonoBehaviour {
 	public Renderer headRenderer;
 	public TextMesh textM;
 	public TextMesh textGoalM;
-    public Transform statsholder;
 
 
 
@@ -20,7 +19,7 @@ public class EnemyScript : MonoBehaviour {
 	public Color myColor;
 	public Color goalColor;
 
-    NavMeshAgent nav;
+    //NavMeshAgent nav;
     Transform wagon;
 
     // Use this for initialization
@@ -34,13 +33,11 @@ public class EnemyScript : MonoBehaviour {
     {
         wagon = GameObject.FindGameObjectWithTag("Wagon").transform;
 
-        nav = GetComponent<NavMeshAgent>();
+ //       nav = GetComponent<NavMeshAgent>();
     }
 	public void GetsHittedByPlayer (Color inColor ) {
 		if(compareColors(goalColor, inColor)){
-			Destroy(gameObject);
-			GameObject particleGO = Instantiate( enemyDestroyParticlePrefab, transform.position, enemyDestroyParticlePrefab.transform.rotation) as GameObject;
-			particleGO.GetComponent<ParticleSystem>().startColor = inColor;
+            DestroyMe();
 		}else{
 			bodyRenderer.material.color = inColor;
 			textM.text = "R"+inColor.r+" G"+inColor.g+" B"+inColor.b;
@@ -56,12 +53,11 @@ public class EnemyScript : MonoBehaviour {
     void Update()
     {
         transform.LookAt(wagon);
-        statsholder.LookAt(Camera.main.transform);
         if (isGoingHeaven)
         {
             enemyrb.MovePosition(transform.position + new Vector3(0, upSpeed*Time.deltaTime , 0));
             if (transform.position.y > 20)
-                isGoingHeaven = false;
+                DestroyMe();
 
         }
         else
@@ -79,6 +75,12 @@ public class EnemyScript : MonoBehaviour {
         
         
 
+    }
+    void DestroyMe()
+    {
+        Destroy(gameObject);
+        GameObject particleGO = Instantiate(enemyDestroyParticlePrefab, transform.position, enemyDestroyParticlePrefab.transform.rotation) as GameObject;
+        particleGO.GetComponent<ParticleSystem>().startColor = goalColor;
     }
 }
 
