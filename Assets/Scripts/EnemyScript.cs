@@ -22,6 +22,7 @@ public class EnemyScript : MonoBehaviour {
 
 
     public int tankHealth;
+    public float forwardSpeed;
 
     //NavMeshAgent nav;
     Transform wagon;
@@ -42,18 +43,26 @@ public class EnemyScript : MonoBehaviour {
 	public void GetsHitByPlayer (Color inColor ) {
         if (CompareTag("Enemy"))
         {
+            currentColor = GetComponent<Renderer>().material.color;
 
-            if (compareColors(goalColor, inColor))
-            {
+            currentColor = currentColor + inColor / tankHealth;
+
+            if (compareColors(goalColor, currentColor))
                 DestroyMe();
-            }
-            
-               
-         
-        }
-        else if (CompareTag("Tank"))
-        {
-            tankGetsHit(inColor);
+            else
+                GetComponent<Renderer>().material.color = currentColor;
+            /* if (compareColors(goalColor, inColor))
+             {
+                 DestroyMe();
+             }
+
+
+
+         }
+         else if (CompareTag("Tank"))
+         {
+             tankGetsHit(inColor);
+         */
         }
         currentColor = GetComponent<Renderer>().material.color;
         textM.text = "R" + (Mathf.RoundToInt(currentColor.r * 100) / 100f) + " G" + (Mathf.RoundToInt(currentColor.g * 100) / 100f) + " B" + (Mathf.RoundToInt(currentColor.b * 100) / 100f);
@@ -77,7 +86,7 @@ public class EnemyScript : MonoBehaviour {
         }
         else
         {
-            enemyrb.MovePosition(transform.position +transform.forward * upSpeed * Time.deltaTime);
+            enemyrb.MovePosition(transform.position +transform.forward * forwardSpeed * Time.deltaTime);
 
             //nav.SetDestination(wagon.position);
         }
@@ -98,7 +107,7 @@ public class EnemyScript : MonoBehaviour {
         particleGO.GetComponent<ParticleSystem>().startColor = goalColor;
     }
 
-    void tankGetsHit (Color inColor)
+  /*  void tankGetsHit (Color inColor)
     {
         currentColor = GetComponent<Renderer>().material.color;
         
@@ -108,7 +117,7 @@ public class EnemyScript : MonoBehaviour {
             DestroyMe();
         else
         GetComponent<Renderer>().material.color= currentColor;
-    }
+    }*/
 }
 
     
