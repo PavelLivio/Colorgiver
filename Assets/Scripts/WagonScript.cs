@@ -19,7 +19,7 @@ public class WagonScript : MonoBehaviour {
 	}
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy")|| other.CompareTag("Tank"))
         {
             other.enabled = false;
             wagonColor = wagonColor - (other.GetComponent<EnemyScript>().goalColor) / 10;

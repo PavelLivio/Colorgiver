@@ -18,6 +18,10 @@ public class EnemyScript : MonoBehaviour {
 
 	public Color myColor;
 	public Color goalColor;
+    public Color currentColor;
+
+
+    public int tankHealth;
 
     //NavMeshAgent nav;
     Transform wagon;
@@ -35,17 +39,28 @@ public class EnemyScript : MonoBehaviour {
 
  //       nav = GetComponent<NavMeshAgent>();
     }
-	public void GetsHittedByPlayer (Color inColor ) {
-		if(compareColors(goalColor, inColor)){
-            DestroyMe();
-		}else{
-			bodyRenderer.material.color = inColor;
-			textM.text = "R"+inColor.r+" G"+inColor.g+" B"+inColor.b;
-		}
-	}
+	public void GetsHitByPlayer (Color inColor ) {
+        if (CompareTag("Enemy"))
+        {
+
+            if (compareColors(goalColor, inColor))
+            {
+                DestroyMe();
+            }
+            
+               
+         
+        }
+        else if (CompareTag("Tank"))
+        {
+            tankGetsHit(inColor);
+        }
+        currentColor = GetComponent<Renderer>().material.color;
+        textM.text = "R" + (Mathf.RoundToInt(currentColor.r * 100) / 100f) + " G" + (Mathf.RoundToInt(currentColor.g * 100) / 100f) + " B" + (Mathf.RoundToInt(currentColor.b * 100) / 100f);
+    }
 
 	bool compareColors(Color inCol1, Color inCol2){
-		if(inCol1.r == inCol2.r && inCol1.g == inCol2.g && inCol1.b==inCol2.b)
+		if(inCol1.r <= inCol2.r && inCol1.g <= inCol2.g && inCol1.b<=inCol2.b)
 			return true;
 		else
 			return false;
@@ -81,6 +96,18 @@ public class EnemyScript : MonoBehaviour {
         Destroy(gameObject);
         GameObject particleGO = Instantiate(enemyDestroyParticlePrefab, transform.position, enemyDestroyParticlePrefab.transform.rotation) as GameObject;
         particleGO.GetComponent<ParticleSystem>().startColor = goalColor;
+    }
+
+    void tankGetsHit (Color inColor)
+    {
+        currentColor = GetComponent<Renderer>().material.color;
+        
+        currentColor = currentColor + inColor / tankHealth;
+        
+        if (compareColors(goalColor, currentColor))
+            DestroyMe();
+        else
+        GetComponent<Renderer>().material.color= currentColor;
     }
 }
 

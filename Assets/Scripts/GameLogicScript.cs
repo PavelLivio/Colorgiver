@@ -59,9 +59,10 @@ public class GameLogicScript : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
-				if(hit.collider.CompareTag("Enemy")){
+				if(hit.collider.CompareTag("Enemy")|| hit.collider.CompareTag("Tank"))
+                {
 					EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
-					tEnemyScript.GetsHittedByPlayer(currentPlayerColor);
+					tEnemyScript.GetsHitByPlayer(currentPlayerColor);
 				}else{
                     currentDragedGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
                 }
