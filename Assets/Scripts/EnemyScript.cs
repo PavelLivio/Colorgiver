@@ -47,9 +47,10 @@ public class EnemyScript : MonoBehaviour {
 
             currentColor = currentColor + inColor / tankHealth;
 
-            if (compareColors(goalColor, currentColor))
+			if (compareColors(goalColor, currentColor)){
+				GameLogicScript.i.audioH.Play("EnemyDestroyBling");
                 DestroyMe();
-            else
+			}else
                 GetComponent<Renderer>().material.color = currentColor;
             /* if (compareColors(goalColor, inColor))
              {

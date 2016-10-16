@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameLogicScript : MonoBehaviour {
 
-	static GameLogicScript i;
+	public static GameLogicScript i;
 
 	GameObject currentDragedGO;
 	Color currentPlayerColor;
@@ -14,6 +14,7 @@ public class GameLogicScript : MonoBehaviour {
 	public LineRenderer lR;
 
 	public Transform markerT;
+	public AudioHolderScript audioH;
 
 
     // Use this for initialization
