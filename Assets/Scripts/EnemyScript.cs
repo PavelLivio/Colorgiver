@@ -13,7 +13,7 @@ public class EnemyScript : MonoBehaviour {
 
 
     public Rigidbody enemyrb;
-    public float upSpeed= 4f;
+    float upSpeed= 10f;
     bool isGoingHeaven;
 
 	public Color myColor;
@@ -77,7 +77,11 @@ public class EnemyScript : MonoBehaviour {
 	}
     void Update()
     {
-        transform.LookAt(wagon);
+        
+	}
+
+	void FixedUpdate()
+	{
         if (isGoingHeaven)
         {
             enemyrb.MovePosition(transform.position + new Vector3(0, upSpeed*Time.deltaTime , 0));
@@ -87,6 +91,7 @@ public class EnemyScript : MonoBehaviour {
         }
         else
         {
+			transform.LookAt(wagon);
             enemyrb.MovePosition(transform.position +transform.forward * forwardSpeed * Time.deltaTime);
 
             //nav.SetDestination(wagon.position);

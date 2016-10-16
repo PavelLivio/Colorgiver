@@ -100,6 +100,7 @@ public class GameLogicScript : MonoBehaviour {
 
 				markerT.gameObject.SetActive(false);
 			}
+			currentDragedGO= null;
 		}
 	
 	}
