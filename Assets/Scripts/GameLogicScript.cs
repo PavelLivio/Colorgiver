@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameLogicScript : MonoBehaviour {
 
+	static GameLogicScript i;
+
 	GameObject currentDragedGO;
 	Color currentPlayerColor;
 	GameObject currentDragedGhostGO;
@@ -12,12 +14,11 @@ public class GameLogicScript : MonoBehaviour {
 	public LineRenderer lR;
 
 	public Transform markerT;
-    
 
 
     // Use this for initialization
-    void Start () {
-	
+    void Awake () {
+		i = this;
 	}
 	
 	// Update is called once per frame
