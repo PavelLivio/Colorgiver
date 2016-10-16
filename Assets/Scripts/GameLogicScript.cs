@@ -12,7 +12,7 @@ public class GameLogicScript : MonoBehaviour {
 	public LineRenderer lR;
 
     
-
+    
 
 
     // Use this for initialization
