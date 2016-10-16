@@ -11,7 +11,7 @@ public class GameLogicScript : MonoBehaviour {
 	public GameObject ghostPrefab;
 	public LineRenderer lR;
 
-    
+	public Transform markerT;
     
 
 
@@ -50,6 +50,14 @@ public class GameLogicScript : MonoBehaviour {
 					currentDragedGhostGO.transform.position = hit.point;
 					lR.SetPosition(0,currentDragedGO.transform.position);
 					lR.SetPosition(1,currentDragedGhostGO.transform.position);
+
+					if(hit.collider.CompareTag("Enemy")){
+						markerT.gameObject.SetActive(true);
+						markerT.transform.position = hit.collider.transform.position;
+						markerT.LookAt(Camera.main.transform);
+					}else{
+						markerT.gameObject.SetActive(false);
+					}
 				}
 			}
 		}
@@ -71,6 +79,8 @@ public class GameLogicScript : MonoBehaviour {
 
 				lR.SetPosition(0,Vector3.zero);
 				lR.SetPosition(1,Vector3.zero);
+
+				markerT.gameObject.SetActive(false);
 			}
 		}
 	
