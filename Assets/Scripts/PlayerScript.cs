@@ -7,6 +7,9 @@ public class PlayerScript : MonoBehaviour {
 	public float colorGreen;
 	public float colorBlue;
 
+	float speed = 4;
+	public Rigidbody rB;
+
 	Renderer myRenderer;
 
 	// Use this for initialization
@@ -15,9 +18,9 @@ public class PlayerScript : MonoBehaviour {
 		myRenderer.material.color = new Color(colorRed, colorGreen, colorBlue);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void FixedUpdate () {
+		rB.MovePosition(rB.position + transform.forward * speed * Time.fixedDeltaTime);
 	}
 
 	public void ShootColor(){

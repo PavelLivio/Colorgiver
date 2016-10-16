@@ -65,7 +65,7 @@ public class GameLogicScript : MonoBehaviour {
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
 				if(currentDragedGhostGO){
-					currentDragedGhostGO.transform.position = hit.point;
+					currentDragedGhostGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
 					lR.SetPosition(0,currentDragedGO.transform.position);
 					lR.SetPosition(1,currentDragedGhostGO.transform.position);
 
