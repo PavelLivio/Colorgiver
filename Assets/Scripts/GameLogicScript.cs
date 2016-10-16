@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameLogicScript : MonoBehaviour {
 
@@ -16,10 +17,25 @@ public class GameLogicScript : MonoBehaviour {
 	public Transform markerT;
 	public AudioHolderScript audioH;
 
+	public GameObject canvasGO;
+	public Text scoreText;
+	float score = 0;
+
 
     // Use this for initialization
     void Awake () {
 		i = this;
+		canvasGO.SetActive(true);
+	}
+
+	public void EnemyDied(EnemyScript inEnemyS){
+		GameLogicScript.i.audioH.Play("EnemyDestroyBling");
+		UpdateScore(10*inEnemyS.tankHealth);
+	}
+
+	public void UpdateScore(float inMod){
+		score += inMod;
+		scoreText.text = "Score: "+score;
 	}
 	
 	// Update is called once per frame
