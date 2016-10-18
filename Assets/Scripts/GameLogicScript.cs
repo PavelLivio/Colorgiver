@@ -6,6 +6,8 @@ public class GameLogicScript : MonoBehaviour {
 
 	public static GameLogicScript i;
 
+    public WagonScript wagonS;
+
 	GameObject currentDragedGO;
 	Color currentPlayerColor;
 	GameObject currentDragedGhostGO;
@@ -26,7 +28,9 @@ public class GameLogicScript : MonoBehaviour {
     void Awake () {
 		i = this;
 		canvasGO.SetActive(true);
-	}
+        wagonS = FindObjectOfType<WagonScript>();
+
+    }
 
 	public void EnemyDied(EnemyScript inEnemyS){
 		GameLogicScript.i.audioH.Play("EnemyDestroyBling");
@@ -85,10 +89,11 @@ public class GameLogicScript : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
-				if(hit.collider.CompareTag("Enemy")|| hit.collider.CompareTag("Tank"))
-                {
+				if(hit.collider.CompareTag("Enemy"))
+                {   
 					EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
-					tEnemyScript.GetsHitByPlayer(currentPlayerColor);
+                    currentDragedGO.GetComponent<PlayerScript>().ShootEnemy(tEnemyScript);
+					//tEnemyScript.GetsHitByPlayer(currentPlayerColor);
 				}else{
                     currentDragedGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
                 }

@@ -84,7 +84,7 @@ public class EnemyScript : MonoBehaviour {
 	{
         if (isGoingHeaven)
         {
-            enemyrb.MovePosition(transform.position + new Vector3(0, upSpeed*Time.deltaTime , 0));
+            enemyrb.MovePosition(transform.position + new Vector3(0, upSpeed*Time.fixedDeltaTime, 0));
             if (transform.position.y > 20)
                 DestroyMe();
 
@@ -92,7 +92,7 @@ public class EnemyScript : MonoBehaviour {
         else
         {
 			transform.LookAt(wagon);
-            enemyrb.MovePosition(transform.position +transform.forward * forwardSpeed * Time.deltaTime);
+            enemyrb.MovePosition(transform.position +transform.forward * forwardSpeed * Time.fixedDeltaTime);
 
             //nav.SetDestination(wagon.position);
         }
