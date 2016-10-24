@@ -7,23 +7,30 @@ public class PlayerScript : MonoBehaviour {
 
     public ColorBarScript colorBarScript;
 
-	float speed;
-	public Rigidbody rB;
-
+    public float speed;
+    public Rigidbody rB;
+    public GameObject wagon;
+    float asdf;
     Renderer myRenderer;
 
-	// Use this for initialization
-	void Start () {
-		myRenderer = GetComponent<Renderer>();
+    // Use this for initialization
+    void Start() {
+        myRenderer = GetComponent<Renderer>();
         Col = col;
         speed = GameLogicScript.i.wagonS.speed;
-		//myRenderer.material.color = new Color(Col.r, Col.g, Col.b);
-	}
-	
+        //myRenderer.material.color = new Color(Col.r, Col.g, Col.b);
+      
+    }
 
-	void FixedUpdate () {
-		rB.MovePosition(rB.position + transform.forward * speed * Time.fixedDeltaTime);
-	}
+
+    void FixedUpdate() {
+        asdf = (-wagon.transform.position.z + this.transform.position.z);
+        if (asdf<20) {
+            Debug.Log(asdf);
+        rB.MovePosition(rB.position + transform.forward * speed * Time.fixedDeltaTime); }
+        else{
+            rB.MovePosition(rB.position + transform.forward* -speed* Time.fixedDeltaTime); }
+    }
 
     Color Col {
         get
