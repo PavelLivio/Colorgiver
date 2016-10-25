@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameLogicScript : MonoBehaviour {
 
@@ -23,13 +24,14 @@ public class GameLogicScript : MonoBehaviour {
 	public Text scoreText;
 	float score = 0;
 
+    public TutorialScript tutorialScript;
 
     // Use this for initialization
     void Awake () {
 		i = this;
 		canvasGO.SetActive(true);
         wagonS = FindObjectOfType<WagonScript>();
-
+        tutorialScript = GetComponent<TutorialScript>();
     }
 
 	public void EnemyDied(EnemyScript inEnemyS){
@@ -96,6 +98,7 @@ public class GameLogicScript : MonoBehaviour {
 					//tEnemyScript.GetsHitByPlayer(currentPlayerColor);
 				}else{
                     currentDragedGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
+                    if (tutorialScript) tutorialScript.MoveDone();
                 }
 				//currentDragedGO.GetComponent<Renderer>().material.color = Color.white;
 				Destroy(currentDragedGhostGO);
@@ -109,4 +112,12 @@ public class GameLogicScript : MonoBehaviour {
 		}
 	
 	}
+
+    public void LoadNextLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

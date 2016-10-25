@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour {
     public Color col;
 
     public ColorBarScript colorBarScript;
+    public GameObject bulletPrefab;
 
     public float speed;
     public Rigidbody rB;
@@ -15,6 +16,7 @@ public class PlayerScript : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        wagon = GameObject.FindGameObjectWithTag("Wagon");
         myRenderer = GetComponent<Renderer>();
         Col = col;
         speed = GameLogicScript.i.wagonS.speed;
@@ -26,7 +28,7 @@ public class PlayerScript : MonoBehaviour {
     void FixedUpdate() {
         asdf = (-wagon.transform.position.z + this.transform.position.z);
         if (asdf<20) {
-            Debug.Log(asdf);
+        
         rB.MovePosition(rB.position + transform.forward * speed * Time.fixedDeltaTime); }
         else{
             rB.MovePosition(rB.position + transform.forward* -speed* Time.fixedDeltaTime); }
@@ -62,7 +64,9 @@ public class PlayerScript : MonoBehaviour {
                 shootColor.g = 1;
             }
             Col -= shootColor / 10f;
-            enemy.GetsHitByPlayer(shootColor);
+           GameObject bullet =  Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject ;
+            bullet.GetComponent<BulletScript >().EnemyWillGetShot(enemy, shootColor );
+            //enemy.GetsHitByPlayer(shootColor);
 
         }
 
@@ -83,6 +87,7 @@ public class PlayerScript : MonoBehaviour {
         if (other.CompareTag("PowerUp")){
             Col += other.gameObject.GetComponent<PowerUpScript >().colorToPlayer;
             Destroy(other.gameObject );
+            if (GameLogicScript.i.tutorialScript) GameLogicScript.i.tutorialScript.PowerUpPickedUp();
         }
     }
 }
