@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameLogicScript : MonoBehaviour {
 
+    public int TutorialLevelIndex = -1; //-1 = not tutorial;
+
 	public static GameLogicScript i;
 
     public WagonScript wagonS;
@@ -23,6 +25,9 @@ public class GameLogicScript : MonoBehaviour {
 	public GameObject canvasGO;
 	public Text scoreText;
 	float score = 0;
+    public Text gameOverText;
+    float timer = 0;
+    bool timerOn = false;
 
     public TutorialScript tutorialScript;
 
@@ -31,7 +36,7 @@ public class GameLogicScript : MonoBehaviour {
 		i = this;
 		canvasGO.SetActive(true);
         wagonS = FindObjectOfType<WagonScript>();
-        tutorialScript = GetComponent<TutorialScript>();
+        if (TutorialLevelIndex >=0 )tutorialScript = GetComponent<TutorialScript>();
     }
 
 	public void EnemyDied(EnemyScript inEnemyS){
@@ -47,7 +52,13 @@ public class GameLogicScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Input.GetMouseButtonDown(0)){
+        if (timerOn && Time.time > timer)
+        {
+            timerOn = false;
+            ReloadLevel();
+        }
+
+        if (Input.GetMouseButtonDown(0)){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 
@@ -112,6 +123,13 @@ public class GameLogicScript : MonoBehaviour {
 		}
 	
 	}
+
+    public void GameOver(string incolor) {
+        gameOverText.text = "You ran out of " + incolor + "\n Try again!";
+        timer = Time.time + 3;
+        timerOn = true;
+        
+    }
 
     public void LoadNextLevel() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

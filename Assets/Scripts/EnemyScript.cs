@@ -33,6 +33,7 @@ public class EnemyScript : MonoBehaviour {
 		bodyRenderer.material.color = myColor;
 		textGoalM.text = "R"+goalColor.r+" G"+goalColor.g+" B"+goalColor.b;
         enemyrb = GetComponent<Rigidbody>();
+        textM.transform.parent.gameObject.SetActive(false);
 	}
     void Awake ()
     {

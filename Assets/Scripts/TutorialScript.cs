@@ -18,8 +18,13 @@ public class TutorialScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        Debug.Log("tuttext: " + tutorialText);
-        tutorialText.text = "Move the black sphere by drag and drop!";
+        if (GameLogicScript.i.TutorialLevelIndex >= 0)
+        {
+            tutorialText.text = "Move the black sphere by drag and drop!";
+        }
+        else {
+            enabled = false;
+        }
 
     }
 	

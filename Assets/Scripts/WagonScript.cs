@@ -38,7 +38,17 @@ public class WagonScript : MonoBehaviour {
             GetComponent<Renderer>().material.color = wagonColor;
 			AdjustWheelColor();
             wagonText.text = "R" + (Mathf.RoundToInt(wagonColor.r * 100) / 100f) + " G" + (Mathf.RoundToInt(wagonColor.g * 100) / 100f) + " B" + (Mathf.RoundToInt(wagonColor.b * 100) / 100f);
-
+            if (wagonColor.r <= 0) {
+                GameLogicScript.i.GameOver("red");
+            }
+            else if (wagonColor.b <= 0)
+            {
+                GameLogicScript.i.GameOver("blue");
+            }
+            else if (wagonColor.g <= 0)
+            {
+                GameLogicScript.i.GameOver("green");
+            }
             other.GetComponent<EnemyScript>().GoToHeaven();
         }
     }
