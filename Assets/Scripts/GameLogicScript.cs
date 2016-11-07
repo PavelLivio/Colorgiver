@@ -24,25 +24,36 @@ public class GameLogicScript : MonoBehaviour {
 
 	public GameObject canvasGO;
 	public Text scoreText;
-	float score = 0;
+	public float score = 0;
     public Text gameOverText;
     float timer = 0;
     bool timerOn = false;
+    public bool firstGotHit;
 
     public TutorialScript tutorialScript;
+    public Tutorial2Script tutorial2Script;
 
     // Use this for initialization
     void Awake () {
+        Debug.Log(TutorialLevelIndex);
 		i = this;
 		canvasGO.SetActive(true);
         wagonS = FindObjectOfType<WagonScript>();
-        if (TutorialLevelIndex >=0 )tutorialScript = GetComponent<TutorialScript>();
+        if (TutorialLevelIndex == 0 )tutorialScript = GetComponent<TutorialScript>();
+        if (TutorialLevelIndex == 1) tutorial2Script = GetComponent<Tutorial2Script>();
     }
 
 	public void EnemyDied(EnemyScript inEnemyS){
 		GameLogicScript.i.audioH.Play("EnemyDestroyBling");
 		UpdateScore(10*inEnemyS.tankHealth);
-	}
+
+
+        if (TutorialLevelIndex == 0)
+        {
+            Debug.Log("firstGotHit");
+            firstGotHit = true;
+        }
+    }
 
 	public void UpdateScore(float inMod){
 		score += inMod;
@@ -103,7 +114,7 @@ public class GameLogicScript : MonoBehaviour {
 
 			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
 				if(hit.collider.CompareTag("Enemy"))
-                {   
+                {
 					EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
                     currentDragedGO.GetComponent<PlayerScript>().ShootEnemy(tEnemyScript);
 					//tEnemyScript.GetsHitByPlayer(currentPlayerColor);

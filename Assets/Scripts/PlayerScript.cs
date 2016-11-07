@@ -42,7 +42,7 @@ public class PlayerScript : MonoBehaviour {
         set
         {
             col = new Color(Mathf.Clamp01(value.r), Mathf.Clamp01(value.g), Mathf.Clamp01(value.b), Mathf.Clamp01(value.a));
-            Debug.Log("col: " + col);
+
             myRenderer.material.color = col;
             colorBarScript.SetColor(col);
         }
