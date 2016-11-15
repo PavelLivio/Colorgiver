@@ -48,7 +48,7 @@ public class PlayerScript : MonoBehaviour {
         }
     }
 
-    public void ShootEnemy(EnemyScript enemy) {
+    public void ShootEnemy(Vector3 enemyPos) {
         if (CanShoot())
         {
             Color shootColor= Color.black;
@@ -64,8 +64,8 @@ public class PlayerScript : MonoBehaviour {
                 shootColor.g = 1;
             }
             Col -= shootColor / 10f;
-           GameObject bullet =  Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject ;
-            bullet.GetComponent<BulletScript >().EnemyWillGetShot(enemy, shootColor );
+           GameObject bullet =  Instantiate(bulletPrefab, new Vector3(transform.position.x,3, transform.position.z), transform.rotation) as GameObject ;
+            bullet.GetComponent<BulletScript >().EnemyWillGetShot(enemyPos, shootColor );
             //enemy.GetsHitByPlayer(shootColor);
 
         }

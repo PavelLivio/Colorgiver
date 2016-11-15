@@ -80,7 +80,7 @@ public class TutorialScript : MonoBehaviour
         firstEnemyGO.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position + Vector3.forward * 60;
 
         showNextText = true;
-        nextText = "Here comes an enemy!\nDestroy it by draging and droping the player on it!";
+        nextText = "Here comes an enemy!\nBy clicking on it your Player will shoot him.";
         SetTimer(2);
         activateNextEnemy = false;
         Debug.Log("activateNextEnemy ausfuehren (loadNextLevel: " + activateNextEnemy + ")");

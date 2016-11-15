@@ -16,7 +16,7 @@ public class ColorBarScript : MonoBehaviour {
 
     public void SetColor(Color inColor)
     {
-        Debug.Log("SetColor " + inColor);
+
         colorBarRed.localScale = new Vector3 (scaleUnit* inColor.r, colorBarRed.localScale.y, colorBarRed.localScale.z);
         //colorBarRed.position = new Vector3(origPosT.position + colorBarRed.right * transform.localScale.x * 0.5f * scaleUnit * inColor.r;
 

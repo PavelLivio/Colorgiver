@@ -14,7 +14,8 @@ public class GameLogicScript : MonoBehaviour {
 	GameObject currentDragedGO;
 	Color currentPlayerColor;
 	GameObject currentDragedGhostGO;
-	public LayerMask playerLayer;
+    GameObject currentSelectedGO;
+    public LayerMask playerLayer;
 	public LayerMask notPlayerLayer;
 	public GameObject ghostPrefab;
 	public LineRenderer lR;
@@ -29,6 +30,7 @@ public class GameLogicScript : MonoBehaviour {
     float timer = 0;
     bool timerOn = false;
     public bool firstGotHit;
+    public int enemyNumber;
 
     public TutorialScript tutorialScript;
     public Tutorial2Script tutorial2Script;
@@ -39,8 +41,12 @@ public class GameLogicScript : MonoBehaviour {
 		i = this;
 		canvasGO.SetActive(true);
         wagonS = FindObjectOfType<WagonScript>();
-        if (TutorialLevelIndex == 0 )tutorialScript = GetComponent<TutorialScript>();
-        if (TutorialLevelIndex == 1) tutorial2Script = GetComponent<Tutorial2Script>();
+        if (TutorialLevelIndex == 0) tutorialScript = GetComponent<TutorialScript>();
+        else if (TutorialLevelIndex == 1) tutorial2Script = GetComponent<Tutorial2Script>();
+        //else {
+        //    foreach(GameObject.FindGame)
+       // }
+
     }
 
 	public void EnemyDied(EnemyScript inEnemyS){
@@ -73,7 +79,7 @@ public class GameLogicScript : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 
-			if (Physics.Raycast(ray, out hit, 100, playerLayer)){
+			if (Physics.Raycast(ray, out hit, 300, playerLayer)){
 				Debug.DrawLine(ray.origin, hit.point);
 				if(hit.collider.CompareTag("Player")){
                     currentDragedGhostGO = Instantiate(ghostPrefab, hit.point+ new Vector3(0, 0.5f, 0), Quaternion.identity) as GameObject;
@@ -91,48 +97,76 @@ public class GameLogicScript : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 
-			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
+			if (Physics.Raycast(ray, out hit, 300, notPlayerLayer)){
 				if(currentDragedGhostGO){
 					currentDragedGhostGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
 					lR.SetPosition(0,currentDragedGO.transform.position);
 					lR.SetPosition(1,currentDragedGhostGO.transform.position);
 
-					if(hit.collider.CompareTag("Enemy")){
+					/*if(hit.collider.CompareTag("Enemy")){
 						markerT.gameObject.SetActive(true);
 						markerT.transform.position = hit.collider.transform.position;
 						markerT.LookAt(Camera.main.transform);
 					}else{
 						markerT.gameObject.SetActive(false);
-					}
+					}*/
 				}
 			}
 		}
 
-		if(currentDragedGO && Input.GetMouseButtonUp(0)){
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
+		if(Input.GetMouseButtonUp(0)){
 
-			if (Physics.Raycast(ray, out hit, 100, notPlayerLayer)){
-				if(hit.collider.CompareTag("Enemy"))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 300, playerLayer))
+            {
+                currentSelectedGO = hit.collider.gameObject;
+                SetMarker(currentSelectedGO);
+            }
+            else
+
+            if (currentDragedGO)
+            {
+                if (Physics.Raycast(ray, out hit, 300, notPlayerLayer))
                 {
-					EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
-                    currentDragedGO.GetComponent<PlayerScript>().ShootEnemy(tEnemyScript);
-					//tEnemyScript.GetsHitByPlayer(currentPlayerColor);
-				}else{
-                    currentDragedGO.transform.position = hit.point+new Vector3 (0,0.5f,0);
-                    if (tutorialScript) tutorialScript.MoveDone();
+                    // if not enemy
+                    if(!hit.collider.CompareTag("Enemy"))
+                    {
+                        currentDragedGO.transform.position = hit.point + new Vector3(0, 0.5f, 0);
+                        currentSelectedGO = currentDragedGO;
+                        SetMarker(currentSelectedGO);
+                        if (tutorialScript) tutorialScript.MoveDone();
+                    }
+                  /*  else
+                    {
+                        markerT.gameObject.SetActive(false);
+                    }*/
+
+                    //currentDragedGO.GetComponent<Renderer>().material.color = Color.white;
+                   
                 }
-				//currentDragedGO.GetComponent<Renderer>().material.color = Color.white;
-				Destroy(currentDragedGhostGO);
-
-				lR.SetPosition(0,Vector3.zero);
-				lR.SetPosition(1,Vector3.zero);
-
-				markerT.gameObject.SetActive(false);
-			}
+            }
+            else
+            {
+                if (currentSelectedGO && Physics.Raycast(ray, out hit, 300, notPlayerLayer))
+                {
+                    //if (hit.collider.CompareTag("Enemy")){
+                        //EnemyScript tEnemyScript = hit.collider.GetComponent<EnemyScript>();
+                        currentSelectedGO.GetComponent<PlayerScript>().ShootEnemy(new Vector3 (hit.point.x,3, hit.point.z));
+                        //tEnemyScript.GetsHitByPlayer(currentPlayerColor);
+                    //}
+                }
+            }
 			currentDragedGO= null;
-		}
-	
+            if (currentDragedGhostGO)
+            {
+                Destroy(currentDragedGhostGO);
+                lR.SetPosition(0, Vector3.zero);
+                lR.SetPosition(1, Vector3.zero);
+            }
+        }
+        
 	}
 
     public void GameOver(string incolor) {
@@ -148,5 +182,11 @@ public class GameLogicScript : MonoBehaviour {
     public void ReloadLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    void SetMarker(GameObject currentGO) {
+        markerT.gameObject.SetActive(true);
+        markerT.transform.position = currentGO.transform.position;
+        markerT.LookAt(Camera.main.transform);
+        markerT.parent = currentGO.transform;
     }
 }

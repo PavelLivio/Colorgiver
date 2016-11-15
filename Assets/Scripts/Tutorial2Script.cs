@@ -11,15 +11,21 @@ public class Tutorial2Script : MonoBehaviour
     float timer = 0;
 
     string nextText = "";
+    bool loadNextLevel;
+    bool redSpawned;
     bool showNextText = false;
     bool bigEnemy;
     bool player2;
+    bool nextLevel;
     GameObject tank;
     public GameObject tankprefab;
     GameObject playerOb;
     public GameObject playerprefab;
     GameObject redPickup;
     public GameObject pickupprefab;
+    public GameObject enemyprefab;
+    GameObject enemyRed;
+    
 
     // Use this for initialization
     void Start()
@@ -65,6 +71,24 @@ public class Tutorial2Script : MonoBehaviour
             playerOb = Instantiate(playerprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(-5, 0, 0), Quaternion.identity) as GameObject;
             player2 = false;
             RedPickUpSpawn();
+            RedEnemySpawn();
+        }
+        if (redSpawned == true && (Time.time > timer || GameLogicScript.i.score == 90)) {
+            tutorialText.text = nextText;
+            showNextText = false;
+            redSpawned = false;
+            YellowEnemySpawn();
+        }
+        if (nextLevel && Time.time >timer)
+        {
+            Debug.Log("asdg");
+            nextLevel = false;
+            tutorialText.text = nextText;
+            showNextText = false;
+            LoadNextLevel();
+        }
+        if (loadNextLevel&& Time.time >timer ) {
+            GameLogicScript.i.LoadNextLevel();
         }
     }
     void SecondText() {
@@ -86,11 +110,49 @@ public class Tutorial2Script : MonoBehaviour
         nextText = "You get a second player! Pick with him the red powerup to kill the red enemies!";
        // showNextText = true;
         player2 = true;
+
         
     }
     void RedPickUpSpawn() {
         redPickup  = Instantiate(pickupprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(-5, 0, 0)+ Vector3.forward * 20, Quaternion.identity) as GameObject;
         redPickup.GetComponent<PowerUpScript>().colorToPlayer.r = 1;
         redPickup.GetComponent<PowerUpScript>().colorToPlayer.g = 0;
+    }
+
+    void RedEnemySpawn() {
+        enemyRed = Instantiate(enemyprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(-20, 0, 0) + Vector3.forward * 80, Quaternion.identity) as GameObject;
+        enemyRed .GetComponent<EnemyScript >().goalColor .r = 1;
+        enemyRed.GetComponent<EnemyScript>().goalColor.g = 0;
+        enemyRed = Instantiate(enemyprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(20, 0, 0) + Vector3.forward * 70, Quaternion.identity) as GameObject;
+        enemyRed.GetComponent<EnemyScript>().goalColor.r = 1;
+        enemyRed.GetComponent<EnemyScript>().goalColor.g = 0;
+        enemyRed = Instantiate(enemyprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 0) + Vector3.forward * 100, Quaternion.identity) as GameObject;
+        enemyRed.GetComponent<EnemyScript>().goalColor.r = 1;
+        enemyRed.GetComponent<EnemyScript>().goalColor.g = 0;
+        showNextText = true;
+        redSpawned = true;
+        timer = Time.time + 20;
+        nextText = "Here comes a yellow Enemy!/nHe needs a green and a red shot!";
+    }
+    void YellowEnemySpawn() {
+        enemyRed = Instantiate(enemyprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(0, 0, 0) + Vector3.forward * 80, Quaternion.identity) as GameObject;
+        enemyRed.GetComponent<EnemyScript>().goalColor.r = 1;
+        enemyRed.GetComponent<EnemyScript>().goalColor.g = 1;
+        redPickup = Instantiate(pickupprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(-15, 0, 0) + Vector3.forward * 40, Quaternion.identity) as GameObject;
+        redPickup.GetComponent<PowerUpScript>().colorToPlayer.r = 1;
+        redPickup.GetComponent<PowerUpScript>().colorToPlayer.g = 0;
+        redPickup = Instantiate(pickupprefab, GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(15, 0, 0) + Vector3.forward * 40, Quaternion.identity) as GameObject;
+        redPickup.GetComponent<PowerUpScript>().colorToPlayer.r = 0;
+        redPickup.GetComponent<PowerUpScript>().colorToPlayer.g = 1;
+        showNextText = true;
+        nextLevel = true;
+        timer = Time.time + 10;
+        nextText = "You finished the tutorial, now try your first Level.";
+    }
+    void LoadNextLevel()
+    {
+        timer = Time.time + 7;
+        loadNextLevel = true;
+
     }
 }

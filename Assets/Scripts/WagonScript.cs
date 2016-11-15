@@ -8,6 +8,7 @@ public class WagonScript : MonoBehaviour {
 	public Renderer wheelRendererR;
 	public Renderer wheelRendererG;
 	public Renderer wheelRendererB;
+    public int tankGotHit= 0;
 
 	public Rigidbody rB;
 	public float speed;
@@ -37,6 +38,7 @@ public class WagonScript : MonoBehaviour {
             wagonColor = wagonColor - (other.GetComponent<EnemyScript>().goalColor) / 10;
             GetComponent<Renderer>().material.color = wagonColor;
 			AdjustWheelColor();
+            tankGotHit += 1;
             wagonText.text = "R" + (Mathf.RoundToInt(wagonColor.r * 100) / 100f) + " G" + (Mathf.RoundToInt(wagonColor.g * 100) / 100f) + " B" + (Mathf.RoundToInt(wagonColor.b * 100) / 100f);
             if (wagonColor.r <= 0) {
                 GameLogicScript.i.GameOver("red");

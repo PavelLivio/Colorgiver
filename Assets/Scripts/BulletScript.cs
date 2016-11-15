@@ -15,16 +15,14 @@ public class BulletScript : MonoBehaviour {
 	void Update () {
 	    
 	}
-    public void EnemyWillGetShot(EnemyScript enemy, Color color) {
+    public void EnemyWillGetShot(Vector3 targetPos, Color color) {
         GetComponent<Renderer>().material.color = color;
-        enemyTransform = enemy.transform;
+        //enemyTransform = enemy.transform;
         GetComponent<TrailRenderer>().material.SetColor("_TintColor", color);
+        transform.LookAt(targetPos); 
     }
     void FixedUpdate() {
-
-        transform.LookAt(enemyTransform);
         rb.MovePosition(rb.position + transform.forward * speed * Time.fixedDeltaTime);
-         
     }
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Enemy"))
